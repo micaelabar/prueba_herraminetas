@@ -1,0 +1,22 @@
+server:
+  port: 8081
+  error:
+    include-message: always
+#Configuracion de spring
+spring:
+  #Configuracion de migracion
+  flyway:
+    enabled: true
+    baselineVersion: 1
+    locations:
+      classpath: db/migration
+    sqlMigrationSuffixes: .sql
+    baselineOnMigrate: true
+    sqlMigrationPrefix: V
+    schemas: public
+
+  datasource:
+    url: jdbc:postgresql://isilo.db.elephantsql.com:5432/eamdbxav?socketTimeout=3
+    username: eamdbxav
+    password: izpfUwMcjxb1PxoCVCWZrIge8cPrOP9g
+    driverClassName: org.postgresql.Driver
