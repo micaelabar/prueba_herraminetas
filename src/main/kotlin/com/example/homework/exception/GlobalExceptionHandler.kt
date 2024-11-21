@@ -1,33 +1,22 @@
-package com.example.homework.exception
+package com.example.sistema.response
 
-import com.example.homework.response.JSendResponse
-import jakarta.validation.ConstraintViolationException
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-import org.springframework.validation.BindException
-import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.ControllerAdvice
+data class JSendResponse(
+    val status: String,
+    val message: String?,
+    val data: Any? = null,
+    val code: Int? = null
+) {
+    companion object {
+        fun success(data: Any?, message: String? = null): JSendResponse {
+            return JSendResponse(status = "success", message = message, data = data)
+        }
 
-@ControllerAdvice
-class GlobalExceptionHandler {
+        fun fail(data: Any?, message: String? = null): JSendResponse {
+            return JSendResponse(status = "fail", message = message, data = data)
+        }
 
-    @ExceptionHandler(ConstraintViolationException::class)
-    fun handleConstraintViolationException(ex: ConstraintViolationException): ResponseEntity<JSendResponse> {
-        val message = ex.message ?: "Error de validación"
-        val response = JSendResponse(
-            status = "fail",
-            message = message
-        )
-        return ResponseEntity(response, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(BindException::class)
-    fun handleBindException(ex: BindException): ResponseEntity<JSendResponse> {
-        val message = ex.allErrors.joinToString(", ") { it.defaultMessage ?: "Error desconocido" }
-        val response = JSendResponse(
-            status = "fail",
-            message = message
-        )
-        return ResponseEntity(response, HttpStatus.BAD_REQUEST)
+        fun error(message: String, code: Int? = null): JSendResponse {
+            return JSendResponse(status = "error", message = message, data = null, code = code)
+        }
     }
 }
