@@ -1,24 +1,18 @@
 package com.example.homework.entity
 
-import jakarta.persistence.*
-import jakarta.validation.constraints.NotNull
-import java.time.LocalDateTime
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
 
 @Entity
-@Table(name = "tareas")
 data class Homework(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    val id: Long? = null, // ID puede ser opcional para entidades JPA
 
-    @field:NotNull(message = "El nombre de la tarea no puede ser nulo")
-    var nombreTarea: String?,
-
-    var descripcion: String? = null,
-
-    @field:NotNull(message = "La fecha de entrega no puede ser nula")
-    var fechaEntrega: LocalDateTime?,
-
-    @field:NotNull(message = "El estado no puede ser nulo")
-    var estado: Boolean?
+    val nombreTarea: String,
+    val descripcion: String,
+    val fechaEntrega: String,
+    val estado: String
 )

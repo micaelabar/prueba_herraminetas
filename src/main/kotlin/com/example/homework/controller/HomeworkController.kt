@@ -4,8 +4,6 @@ import com.example.homework.dto.HomeworkDto
 import com.example.homework.service.HomeworkService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.validation.BindingResult
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -16,12 +14,14 @@ class HomeworkController {
     lateinit var homeworkService: HomeworkService
 
     @PostMapping("/save")
-    fun save(@RequestBody @Validated homeworkDto: HomeworkDto, bindingResult: BindingResult): ResponseEntity<Any> {
-        return homeworkService.save(homeworkDto, bindingResult)
-    }
-
-    @GetMapping("/list")
-    fun getHomework(): ResponseEntity<Any> {
-        return homeworkService.getHomework()
+    fun save(@RequestBody homeworkDto: HomeworkDto): ResponseEntity<Any> {
+        val savedHomework = homeworkService.saveHomework(homeworkDto) // Aquí llama a saveHomework
+        return ResponseEntity.ok(
+            mapOf(
+                "status" to "success",
+                "data" to savedHomework,
+                "message" to "Tarea guardada exitosamente"
+            )
+        )
     }
 }
